@@ -8,8 +8,8 @@ import {
   View,
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-
 import BarcodeMask from "react-native-barcode-mask";
+import moment from "moment";
 
 const finderWidth = 280;
 const finderHeight = 230;
@@ -31,6 +31,17 @@ const ScannerScreen = ({ navigation }) => {
     })();
   }, []);
 
+  const getDaysFromExpiryDate = (date) => {
+    let expiryDate = moment(date, "YYYY-MM-DD").startOf("day");
+    let currentDate = moment(new Date(), "YYYY-MM-DD").startOf("day");
+
+    console.log(
+      "days to expiry",
+      moment.duration(expiryDate.diff(currentDate)).asDays()
+    );
+    return moment.duration(expiryDate.diff(currentDate)).asDays();
+  };
+
   const handleBarCodeScanned = (scanningResult) => {
     if (!scanned) {
       const { type, data, bounds: { origin } = {} } = scanningResult;
@@ -44,7 +55,7 @@ const ScannerScreen = ({ navigation }) => {
       ) {
         setScanned(true);
         const processedData = data.split("%");
-        const vehicleInfo = {
+        let vehicleInfo = {
           RegNo: processedData[1],
           Tarre: processedData[2],
           NatisLicenseNumber: processedData[3],
@@ -63,6 +74,14 @@ const ScannerScreen = ({ navigation }) => {
         alert(
           `Bar code with type ${type} and data ${processedData} has been scanned!`
         );
+
+        let daysToExiryDate = getDaysFromExpiryDate(vehicleInfo.ExpiryDate);
+        vehicleInfo = Object.assign(vehicleInfo, {
+          expired: daysToExiryDate < 0,
+          days: daysToExiryDate,
+        });
+
+        navigation.navigate("summary", vehicleInfo);
       }
     }
   };
