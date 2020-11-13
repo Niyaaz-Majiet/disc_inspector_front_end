@@ -1,6 +1,5 @@
 import "react-native-gesture-handler";
-import SplashScreen from "react-native-splash-screen";
-import React, { useEffect } from "react";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import FormScreen from "./screens/form_screen";
@@ -11,10 +10,6 @@ import SummaryScreen from "./screens/summary_screen";
 const Stack = createStackNavigator();
 
 export default App = () => {
-  useEffect(() => {
-    SplashScreen.hide();
-  }, []);
-
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="splash">

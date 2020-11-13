@@ -6,7 +6,7 @@ const FormScreen = ({ navigation }) => {
     <View>
       <Button
         title="Go To Summary"
-        onPress={() => -navigation.navigate("summary")}
+        onPress={() => navigation.navigate("summary")}
       />
     </View>
   );
