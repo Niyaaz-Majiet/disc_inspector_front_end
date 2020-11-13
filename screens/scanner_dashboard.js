@@ -36,10 +36,6 @@ const ScannerScreen = ({ navigation }) => {
     let expiryDate = moment(date, "YYYY-MM-DD").startOf("day");
     let currentDate = moment(new Date(), "YYYY-MM-DD").startOf("day");
 
-    console.log(
-      "days to expiry",
-      moment.duration(expiryDate.diff(currentDate)).asDays()
-    );
     return moment.duration(expiryDate.diff(currentDate)).asDays();
   };
 

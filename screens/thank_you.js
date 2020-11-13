@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Button, Text } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
+import { globalStyles } from "../styles/globalStyles";
 
 const ThankYou = ({ navigation }) => {
   const navigateToScan = () => {
@@ -7,9 +8,17 @@ const ThankYou = ({ navigation }) => {
   };
 
   return (
-    <View>
-      <Text>{"Thank you for using Inspector Vehicle!"}</Text>
-      <Button title="Scan Again?" onPress={() => navigateToScan()} />
+    <View style={globalStyles.container}>
+      <Text style={globalStyles.thankYouText}>
+        {"Thank you for using Inspector Vehicle!"}
+      </Text>
+
+      <TouchableOpacity
+        style={globalStyles.btn}
+        onPress={() => navigateToScan()}
+      >
+        <Text style={globalStyles.innerTextWhite}>Scan Again?</Text>
+      </TouchableOpacity>
     </View>
   );
 };
