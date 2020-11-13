@@ -38,6 +38,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "green",
     color: "white",
     alignItems: "center",
+    borderRadius: 5,
   },
   btnCancel: {
     width: "40%",
@@ -45,13 +46,14 @@ export const globalStyles = StyleSheet.create({
     textAlign: "center",
     backgroundColor: "#e7e7e7",
     color: "black",
+    borderRadius: 5,
   },
-  btnScan: {},
   summaryHeader: {
     marginBottom: 15,
   },
   thankYouText: {
     marginBottom: 15,
+    fontSize: 18,
   },
   innerTextWhite: {
     color: "white",

@@ -14,15 +14,31 @@ export default App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="splash">
-        <Stack.Screen name="form" component={FormScreen} />
-        <Stack.Screen name="scanner" component={ScannerScreen} />
+        <Stack.Screen
+          options={{ title: "PDF" }}
+          name="form"
+          component={FormScreen}
+        />
+        <Stack.Screen
+          options={{ title: "SCANNER" }}
+          name="scanner"
+          component={ScannerScreen}
+        />
         <Stack.Screen
           options={{ headerShown: false }}
           name="splash"
           component={SplashScreen}
         />
-        <Stack.Screen name="summary" component={SummaryScreen} />
-        <Stack.Screen name="thankyou" component={ThankYou} />
+        <Stack.Screen
+          options={{ title: "SUMMARY" }}
+          name="summary"
+          component={SummaryScreen}
+        />
+        <Stack.Screen
+          options={{ title: "" }}
+          name="thankyou"
+          component={ThankYou}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
