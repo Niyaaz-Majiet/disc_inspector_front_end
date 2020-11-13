@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { PDFDocument } from "pdf-lib";
-import { savePDF, fetchPDF } from "./../logic/util";
+import { savePDF, fetchPDF, downloadPDF } from "./../logic/util";
 
 const FormScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -9,7 +9,10 @@ const FormScreen = ({ navigation }) => {
 
   useEffect(() => {
     const populatePDF = async () => {
-      const base64PDF = await fetchPDF();
+      await downloadPDF();
+
+      //TODO: Comment back below code once download is working properly
+      return;
       const pdfDoc = await PDFDocument.load(base64PDF);
       const form = pdfDoc.getForm();
 

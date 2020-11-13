@@ -1,8 +1,10 @@
 // import RNFetchBlob from "rn-fetch-blob";
 import { encodeToBase64 } from "pdf-lib";
+import * as MediaLibrary from "expo-media-library";
 import * as FileSystem from "expo-file-system";
+import * as Permissions from "expo-permissions";
+import { Alert } from "react-native";
 
-// const PDF_PATH = `${RNFetchBlob.fs.dirs.DocumentDir}/Vehicle_Disk_Renewal_Form.pdf`;
 const DEFAULT_PDF_PATH =
   "https://scriptwhizimages.s3.amazonaws.com/LicenceDiskForm.pdf";
 
@@ -31,6 +33,7 @@ const readFile = async (path) => {
   return content;
 };
 
+//TODO: Deprecate below method
 export const fetchPDF = async (path = DEFAULT_PDF_PATH) => {
   //download file to filesystem
   const docPath =
@@ -38,5 +41,28 @@ export const fetchPDF = async (path = DEFAULT_PDF_PATH) => {
   const res = await FileSystem.downloadAsync(encodeURI(path), docPath);
 
   //Read file and return contents
-  return readFile(docPath);
+  return null;
+  // return readFile(docPath);
+};
+
+export const downloadPDF = async () => {
+  const docPath =
+    FileSystem.documentDirectory + "Vehicle_Disk_Renewal_Form.pdf";
+
+  let uri = null;
+  try {
+    uri = await FileSystem.downloadAsync(DEFAULT_PDF_PATH, docPath);
+  } catch (e) {
+    Alert.alert(
+      "There was a problem downloading the pdf form. Please try again later"
+    );
+  }
+  //Get permissions to download file to android system
+  const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+
+  //Once permission granted, save the file to the Download folder
+  if (status === "granted") {
+    const asset = await MediaLibrary.createAssetAsync(uri);
+    await MediaLibrary.createAlbumAsync("Downloads", asset, false);
+  }
 };
