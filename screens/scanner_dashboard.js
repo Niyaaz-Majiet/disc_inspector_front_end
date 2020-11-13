@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Text,
   View,
+  Alert,
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import BarcodeMask from "react-native-barcode-mask";
@@ -86,6 +87,10 @@ const ScannerScreen = ({ navigation }) => {
     }
   };
 
+  const handleCancelClicked = () => {
+    navigation.navigate("thankyou");
+  };
+
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
   }
@@ -133,10 +138,17 @@ const ScannerScreen = ({ navigation }) => {
         </View>
 
         <BarcodeMask edgeColor="#62B1F6" showAnimatedLine />
-
-        {scanned && (
-          <Button title="Scan Again" onPress={() => setScanned(false)} />
-        )}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Button title="Cancel" onPress={() => handleCancelClicked()} />
+          {scanned && (
+            <Button title="Scan Again" onPress={() => setScanned(false)} />
+          )}
+        </View>
       </BarCodeScanner>
     </View>
   );
