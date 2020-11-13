@@ -14,8 +14,9 @@ export const globalStyles = StyleSheet.create({
   summaryParagraphContainer: {
     display: "flex",
     flexDirection: "column",
-    marginTop: "auto",
-    marginBottom: "auto",
+    marginTop: "40%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   row: {
     display: "flex",
@@ -50,6 +51,7 @@ export const globalStyles = StyleSheet.create({
   },
   summaryHeader: {
     marginBottom: 15,
+    fontSize: 22,
   },
   thankYouText: {
     marginBottom: 15,

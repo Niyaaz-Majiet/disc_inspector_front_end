@@ -19,20 +19,35 @@ const SummaryScreen = ({ navigation, route }) => {
         <Text style={globalStyles.summaryHeader}>Hi Sir/Madam,</Text>
         {vehicleInfo.expired ? (
           <View>
-            <Text>
+            <Text
+              style={{
+                fontSize: 18,
+                textAlign: "center",
+              }}
+            >
               Your {vehicleInfo.Model} {vehicleInfo.Make}{" "}
               {vehicleInfo.VehicleDescription} is not up to date. Days since
               expiration : {vehicleInfo.days * -1}
             </Text>
             {vehicleInfo.days * -1 < 21 && (
-              <Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  textAlign: "center",
+                }}
+              >
                 Licesnse still valid for {21 - vehicleInfo.days * -1} days
               </Text>
             )}
             <Text></Text>
           </View>
         ) : (
-          <Text>
+          <Text
+            style={{
+              fontSize: 18,
+              textAlign: "center",
+            }}
+          >
             Your {vehicleInfo.Model} {vehicleInfo.Make}{" "}
             {vehicleInfo.VehicleDescription} is up to date. Days to expiration :{" "}
             {vehicleInfo.days}
