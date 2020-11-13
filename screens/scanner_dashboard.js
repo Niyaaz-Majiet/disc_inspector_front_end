@@ -44,6 +44,22 @@ const ScannerScreen = ({ navigation }) => {
       ) {
         setScanned(true);
         const processedData = data.split("%");
+        const vehicleInfo = {
+          RegNo: processedData[1],
+          Tarre: processedData[2],
+          NatisLicenseNumber: processedData[3],
+          RegistrationFrequency: processedData[4],
+          DiscNumber: processedData[5],
+          LiscenseNumber: processedData[6],
+          VehicleRegistrationNumber: processedData[7],
+          VehicleDescription: processedData[8],
+          Make: processedData[9],
+          Model: processedData[10],
+          Color: processedData[11],
+          Vin: processedData[12],
+          EngineNumber: processedData[13],
+          ExpiryDate: processedData[14],
+        };
         alert(
           `Bar code with type ${type} and data ${processedData} has been scanned!`
         );
