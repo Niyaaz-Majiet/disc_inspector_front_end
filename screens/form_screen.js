@@ -9,7 +9,7 @@ const FormScreen = ({ navigation }) => {
 
   useEffect(() => {
     const populatePDF = async () => {
-      await downloadPDF();
+      const base64PDF = await downloadPDF();
 
       //TODO: Comment back below code once download is working properly
       return;
