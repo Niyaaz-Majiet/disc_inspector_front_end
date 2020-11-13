@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { View, Text } from "react-native";
+import { globalStyles } from "../styles/globalStyles";
 
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
@@ -12,7 +13,7 @@ const SplashScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View>
+    <View style={globalStyles.container}>
       <Text>Splash Screen !!!</Text>
     </View>
   );

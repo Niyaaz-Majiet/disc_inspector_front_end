@@ -16,7 +16,11 @@ export default App = () => {
       <Stack.Navigator initialRouteName="splash">
         <Stack.Screen name="form" component={FormScreen} />
         <Stack.Screen name="scanner" component={ScannerScreen} />
-        <Stack.Screen name="splash" component={SplashScreen} />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="splash"
+          component={SplashScreen}
+        />
         <Stack.Screen name="summary" component={SummaryScreen} />
         <Stack.Screen name="thankyou" component={ThankYou} />
       </Stack.Navigator>

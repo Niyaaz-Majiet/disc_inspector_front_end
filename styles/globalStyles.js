@@ -46,6 +46,7 @@ export const globalStyles = StyleSheet.create({
     backgroundColor: "#e7e7e7",
     color: "black",
   },
+  btnScan: {},
   summaryHeader: {
     marginBottom: 15,
   },

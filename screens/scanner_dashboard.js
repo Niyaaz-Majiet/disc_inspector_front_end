@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import BarcodeMask from "react-native-barcode-mask";
+import { Feather } from "@expo/vector-icons";
 import moment from "moment";
 
 const finderWidth = 280;
@@ -115,7 +116,8 @@ const ScannerScreen = ({ navigation }) => {
           <TouchableOpacity
             style={{
               flex: 1,
-
+              marginTop: 25,
+              marginRight: 8,
               alignItems: "flex-end",
             }}
             onPress={() => {
@@ -126,26 +128,40 @@ const ScannerScreen = ({ navigation }) => {
               );
             }}
           >
-            <Text style={{ fontSize: 18, margin: 5, color: "white" }}>
-              {" "}
-              Flip{" "}
-            </Text>
+            <Feather name="refresh-cw" size={24} color="white" />
           </TouchableOpacity>
         </View>
 
         <BarcodeMask edgeColor="#62B1F6" showAnimatedLine />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <Button title="Cancel" onPress={() => handleCancelClicked()} />
-          {scanned && (
-            <Button title="Scan Again" onPress={() => setScanned(false)} />
-          )}
-        </View>
       </BarCodeScanner>
+      <View
+        style={{
+          flexDirection: "row",
+          marginTop: "auto",
+          marginBottom: 12,
+          justifyContent: "center",
+        }}
+      >
+        <Button
+          style={{
+            width: "40%",
+            margin: 15,
+          }}
+          title="  Cancel  "
+          onPress={() => handleCancelClicked()}
+        />
+        <Text>&nbsp;</Text>
+        {scanned && (
+          <Button
+            style={{
+              width: "40%",
+              margin: 15,
+            }}
+            title="Scan Again"
+            onPress={() => setScanned(false)}
+          />
+        )}
+      </View>
     </View>
   );
 };
