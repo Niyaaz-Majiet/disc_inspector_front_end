@@ -46,12 +46,11 @@ export const fetchPDF = async (path = DEFAULT_PDF_PATH) => {
 };
 
 export const downloadPDF = async () => {
-  const docPath =
-    FileSystem.documentDirectory + "Vehicle_Disk_Renewal_Form.pdf";
+  const docPath = FileSystem.documentDirectory + "LicenceDiskForm.pdf";
 
-  let uri = null;
+  let file = null;
   try {
-    uri = await FileSystem.downloadAsync(DEFAULT_PDF_PATH, docPath);
+    file = await FileSystem.downloadAsync(DEFAULT_PDF_PATH, docPath);
   } catch (e) {
     Alert.alert(
       "There was a problem downloading the pdf form. Please try again later"
@@ -62,7 +61,7 @@ export const downloadPDF = async () => {
 
   //Once permission granted, save the file to the Download folder
   if (status === "granted") {
-    const asset = await MediaLibrary.createAssetAsync(uri);
-    await MediaLibrary.createAlbumAsync("Downloads", asset, false);
+    const asset = await MediaLibrary.createAssetAsync(file.uri);
+    await MediaLibrary.createAlbumAsync("Download", asset, false);
   }
 };
