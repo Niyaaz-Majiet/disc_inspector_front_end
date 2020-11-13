@@ -1,5 +1,7 @@
 // import RNFetchBlob from "rn-fetch-blob";
 import { encodeToBase64 } from "pdf-lib";
+import * as FileSystem from "expo-file-system";
+
 // const PDF_PATH = `${RNFetchBlob.fs.dirs.DocumentDir}/Vehicle_Disk_Renewal_Form.pdf`;
 const DEFAULT_PDF_PATH =
   "https://scriptwhizimages.s3.amazonaws.com/LicenceDiskForm.pdf";
@@ -21,12 +23,20 @@ export const savePDF = async (pdfBytes, chunkSize = 100000) =>
       Promise.all(writes).then(() => resolve(PDF_PATH));
     });
   }); */
+const readFile = async (path) => {
+  const content = await FileSystem.readAsStringAsync(
+    path,
+    FileSystem.EncodingType.Base64
+  );
+  return content;
+};
 
 export const fetchPDF = async (path = DEFAULT_PDF_PATH) => {
-  const res = await RNFetchBlob.config({ fileCache: false }).fetch(
-    "GET",
-    `${encodeURI(path)}`,
-    { "Cache-Control": "no-store" }
-  );
-  return res.base64();
+  //download file to filesystem
+  const docPath =
+    FileSystem.documentDirectory + "Vehicle_Disk_Renewal_Form.pdf";
+  const res = await FileSystem.downloadAsync(encodeURI(path), docPath);
+
+  //Read file and return contents
+  return readFile(docPath);
 };
