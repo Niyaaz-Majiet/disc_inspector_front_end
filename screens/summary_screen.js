@@ -18,11 +18,19 @@ const SummaryScreen = ({ navigation, route }) => {
       <View style={globalStyles.summaryParagraphContainer}>
         <Text style={globalStyles.summaryHeader}>Hi Sir/Madam,</Text>
         {vehicleInfo.expired ? (
-          <Text>
-            Your {vehicleInfo.Model} {vehicleInfo.Make}{" "}
-            {vehicleInfo.VehicleDescription} is not up to date. Days since
-            expiration : {vehicleInfo.days * -1}
-          </Text>
+          <View>
+            <Text>
+              Your {vehicleInfo.Model} {vehicleInfo.Make}{" "}
+              {vehicleInfo.VehicleDescription} is not up to date. Days since
+              expiration : {vehicleInfo.days * -1}
+            </Text>
+            {vehicleInfo.days * -1 < 21 && (
+              <Text>
+                Licesnse still valid for {21 - vehicleInfo.days * -1} days
+              </Text>
+            )}
+            <Text></Text>
+          </View>
         ) : (
           <Text>
             Your {vehicleInfo.Model} {vehicleInfo.Make}{" "}
