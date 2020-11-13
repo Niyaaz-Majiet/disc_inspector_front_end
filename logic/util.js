@@ -26,9 +26,8 @@ export const savePDF = async (pdfBytes, chunkSize = 100000) =>
     });
   }); */
 const readFile = async (path) => {
-  const options = { encoding: FileSystem.EncodingTypes.Base64 };
+  const options = { encoding: FileSystem.EncodingType.Base64 };
   const content = await FileSystem.readAsStringAsync(path, options);
-  console.log("PDF Content :\n", content);
   return `data:image/jpg;base64${content}`;
 };
 
@@ -47,14 +46,12 @@ export const downloadPDF = async () => {
   const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
 
   //Once permission granted, save the file to the Download folder
-  console.log("URI: \n", JSON.stringify(uri));
   if (status === "granted") {
     const asset = await MediaLibrary.createAssetAsync(file.uri);
     await MediaLibrary.createAlbumAsync("Download", asset, false);
 
     //read the file
     const pdfContent = readFile(file.uri);
-    console.log("PDF Content: \n", pdfContent);
     return pdfContent;
   }
 };

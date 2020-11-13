@@ -12,9 +12,10 @@ const FormScreen = ({ navigation }) => {
       const base64PDF = await downloadPDF();
 
       //TODO: Comment back below code once download is working properly
-      return;
       const pdfDoc = await PDFDocument.load(base64PDF);
       const form = pdfDoc.getForm();
+      console.log("loaded pdf doc; \n", JSON.stringify(pdfDoc));
+      console.log("the gotten pdf doc", JSON.stringify(form));
 
       /* 
         Example used to test whether setting form field works as expected etc
