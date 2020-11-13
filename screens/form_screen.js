@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { PDFDocument } from "pdf-lib";
-import { savePDF, fetchPDF, downloadPDF } from "./../logic/util";
+import { savePDF, downloadPDF } from "./../logic/util";
 
 const FormScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,8 +14,13 @@ const FormScreen = ({ navigation }) => {
       //TODO: Comment back below code once download is working properly
       const pdfDoc = await PDFDocument.load(base64PDF);
       const form = pdfDoc.getForm();
-      console.log("loaded pdf doc; \n", JSON.stringify(pdfDoc));
-      console.log("the gotten pdf doc", JSON.stringify(form));
+      const fields = form.getFields();
+      console.log(" form fields: \n", JSON.stringify(fields));
+      fields.forEach((field) => {
+        const type = field.constructor.name;
+        const name = field.getName();
+        console.log(`${type}: ${name}`);
+      });
 
       /* 
         Example used to test whether setting form field works as expected etc
@@ -23,7 +28,8 @@ const FormScreen = ({ navigation }) => {
         We're shooting ourselves in the foot basically. Ignore that piece of code 
         for now 
       */
-      const identityNumber = form.getTextField("Identification number");
+      return;
+      const identityNumber = form.getCheckbox("Identification number");
       console.log("Identifity form result #: \n", identityNumber);
       identityNumber.setText("5372456846523645873");
       console.log(" ======= Identity # Set =======");
@@ -45,17 +51,17 @@ const FormScreen = ({ navigation }) => {
        * Assuming text at this point
        * Add input field to add odometer reading if available at the end etc
       */
-      const licenceNumber = form.getTextField();
-      const vehicleRegNumber = form.getTextField();
-      const vinNumber = form.getTextField();
-      const makeNumber = form.getTextField();
-      const odometer = form.getTextField();
+      // const licenceNumber = form.getTextField();
+      // const vehicleRegNumber = form.getTextField();
+      // const vinNumber = form.getTextField();
+      // const makeNumber = form.getTextField();
+      // const odometer = form.getTextField();
 
-      licenceNumber.setText("HB10CBGP");
-      vehicleRegNumber.setText("YCK099W");
-      vinNumber.setText("MDHZ0000000000101010101001");
-      makeNumber.setText("DATSUN");
-      odometer.setText("51000");
+      // licenceNumber.setText("HB10CBGP");
+      // vehicleRegNumber.setText("YCK099W");
+      // vinNumber.setText("MDHZ0000000000101010101001");
+      // makeNumber.setText("DATSUN");
+      // odometer.setText("51000");
 
       //convert to binary data
       const pdfContent = await pdfDoc.save();

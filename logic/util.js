@@ -28,7 +28,8 @@ export const savePDF = async (pdfBytes, chunkSize = 100000) =>
 const readFile = async (path) => {
   const options = { encoding: FileSystem.EncodingType.Base64 };
   const content = await FileSystem.readAsStringAsync(path, options);
-  return `data:image/jpg;base64${content}`;
+  console.log("PDF Content : \n", JSON.stringify(content));
+  return content;
 };
 
 export const downloadPDF = async () => {
