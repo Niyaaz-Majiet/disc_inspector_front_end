@@ -1,21 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import SplashScreen from "react-native-splash-screen";
+import React, { useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import FormScreen from "./screens/form_screen";
+import ScannerScreen from "./screens/scanner_dashboard";
+import SplashScreen from "./screens/splash_screen";
+import SummaryScreen from "./screens/summary_screen";
 
-export default function App() {
+const Stack = createStackNavigator();
+
+export default App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="splash">
+        <Stack.Screen name="form" component={FormScreen} />
+        <Stack.Screen name="scanner" component={ScannerScreen} />
+        <Stack.Screen name="splash" component={SplashScreen} />
+        <Stack.Screen name="summary" component={SummaryScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
