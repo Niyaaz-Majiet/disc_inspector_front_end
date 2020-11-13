@@ -5,7 +5,7 @@ import { savePDF, fetchPDF } from "./../logic/util";
 
 const FormScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
     const populatePDF = async () => {
@@ -54,37 +54,37 @@ const FormScreen = ({ navigation }) => {
       odometer.setText("51000");
 
       //convert to binary data
-      const readyFile = await pdfDoc.save();
-      return readyFile;
+      const pdfContent = await pdfDoc.save();
+      //Save to device storage
+      try {
+        await savePDF(pdfContent);
+        setIsLoading(false); //bool config for spinner etc
+      } catch (e) {
+        console.log(`Error saving PDF file to device: `, e.message);
+        setIsLoading(false);
+      }
     };
 
     // pass args{} from summary screen here
-    const populatedDoc = populatePDF();
-
-    //Save to device storage
-    try {
-      await savePDF(populatedDoc);
-      setIsLoading(false);//bool config for spinner etc
-    } catch(e) {
-      console.log(`Error saving PDF file to device: `, e.message)
-      setIsLoading(false);
-    }
+    populatePDF();
   }, []);
   return (
     <View>
       <View>
         {isLoading && <Text>{"Downloading PDF..."}</Text>}
         {!isLoading && (
-        <Text>
-        {"Your Licence Renewal PDF has been downloaded to your documents..."}
-        </Text>
+          <Text>
+            {
+              "Your Licence Renewal PDF has been downloaded to your documents..."
+            }
+          </Text>
         )}
       </View>
-   {(errorMsg && errorMsg.length > 0) &&  (
-    <View>
-        <Text>{`There was a problem downloading your PDF. Please try again later`}</Text>
-    </View>
-   )}
+      {errorMsg && errorMsg.length > 0 && (
+        <View>
+          <Text>{`There was a problem downloading your PDF. Please try again later`}</Text>
+        </View>
+      )}
     </View>
   );
 };
