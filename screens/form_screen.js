@@ -13,9 +13,13 @@ const FormScreen = ({ navigation }) => {
 
       //TODO: Comment back below code once download is working properly
       const pdfDoc = await PDFDocument.load(base64PDF);
+      const page = pdfDoc.getPage(0);
       const form = pdfDoc.getForm();
+      const identityNumberField = form.createTextField("Identifty Number");
+      identityNumberField.setText("75645648576456745");
+      identityNumberField.addToPage(page, { x: 50, y: 640 });
+
       const fields = form.getFields();
-      console.log(" form fields: \n", JSON.stringify(fields));
       fields.forEach((field) => {
         const type = field.constructor.name;
         const name = field.getName();
