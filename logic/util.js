@@ -16,6 +16,7 @@ export const savePDF = async (pdfBytes, path, chunkSize = 100000) => {
   try {
     await FileSystem.writeAsStringAsync(path, pdfBytes, fileOptions.base64);
   } catch (e) {
+    console.log(`Error saving pdf content to file: ${e.message}`);
     Alert.alert("There was a problem saving your pdf. Please try again later");
   }
 };

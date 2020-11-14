@@ -46,10 +46,12 @@ const FormScreen = ({ navigation }) => {
         TODO: Move pdfContent =... logic  to bottom of page assignment after tests
       */
       //convert to binary data
+      // pdfDoc.save() returns uint8Arr, however,
       const pdfContent = await pdfDoc.save();
+      const stringContent = new TextDecoder(encoding).decode(pdfContent);
       //Save to device storage
       try {
-        await savePDF(pdfContent);
+        await savePDF(stringContent);
         setIsLoading(false); //bool config for spinner etc
       } catch (e) {
         console.log(`Error saving PDF file to device: `, e.message);
