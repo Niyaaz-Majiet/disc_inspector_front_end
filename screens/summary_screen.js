@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Button, TouchableOpacity } from "react-native";
 import { globalStyles } from "../styles/globalStyles";
 
 const SummaryScreen = ({ navigation, route }) => {
+  const [modalOpend, setModalOpened] = useState(false);
   const vehicleInfo = route.params;
+
+  const toggleModal = () => {
+    setModalOpened(!modalOpend);
+  };
 
   const HandleDone = () => {
     navigation.navigate("thankyou");
@@ -54,6 +59,76 @@ const SummaryScreen = ({ navigation, route }) => {
           </Text>
         )}
       </View>
+      {modalOpend ? (
+        <View
+          style={{
+            height: 200,
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              alignSelf: "center",
+              marginBottom: 15,
+            }}
+            onPress={() => toggleModal()}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                textDecorationLine: "underline",
+                color: "blue",
+                fontSize: 16,
+              }}
+            >
+              HIDE
+            </Text>
+          </TouchableOpacity>
+          <View style={globalStyles.row}>
+            <Text>{"License Number :"}</Text>
+            <Text>{vehicleInfo.LiscenseNumber}</Text>
+          </View>
+          <View style={globalStyles.row}>
+            <Text>{"Engin Numner :"}</Text>
+            <Text>{vehicleInfo.EngineNumber}</Text>
+          </View>
+          <View style={globalStyles.row}>
+            <Text>{"Vin :"}</Text>
+            <Text>{vehicleInfo.Vin}</Text>
+          </View>
+          <View style={globalStyles.row}>
+            <Text>{"Expiry date :"}</Text>
+            <Text>{vehicleInfo.ExpiryDate}</Text>
+          </View>
+        </View>
+      ) : (
+        <View
+          style={{
+            height: 200,
+            backgroundColor: "#e5e4e2",
+          }}
+        >
+          <TouchableOpacity
+            style={{
+              alignSelf: "center",
+              marginBottom: 15,
+            }}
+            onPress={() => toggleModal()}
+          >
+            <Text
+              style={{
+                alignSelf: "center",
+                textDecorationLine: "underline",
+                color: "blue",
+                fontSize: 16,
+              }}
+              onPress={() => toggleModal()}
+            >
+              {"ADDITIONAL INFO"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      )}
+
       <View style={globalStyles.summaryRow}>
         <TouchableOpacity
           style={globalStyles.btnCancel}
