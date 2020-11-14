@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, rgb } from "pdf-lib";
 import { savePDF, downloadPDF } from "./../logic/util";
 
 const FormScreen = ({ navigation }) => {
@@ -9,13 +9,29 @@ const FormScreen = ({ navigation }) => {
 
   useEffect(() => {
     const populatePDF = async () => {
-      const base64PDF = await downloadPDF();
+      const { filePath, content } = await downloadPDF();
 
       //TODO: Comment back below code once download is working properly
-      const pdfDoc = await PDFDocument.load(base64PDF);
+      const pdfDoc = await PDFDocument.load(content);
       const form = pdfDoc.getForm();
+      const page = pdfDoc.getPage(0);
       const fields = form.getFields();
       console.log(" form fields: \n", JSON.stringify(fields));
+      /**
+       * The PDF from the government does not have any input fields
+       * that can be extracted from the pdf.
+       * We are going to manually add the input fields based on the
+       * x,y coordinates of the form fields and save the document
+       */
+      const identityNoTextField = form.createTextField("Identity.Number");
+      identityNoTextField.setText("8463174489081");
+      identityNoTextField.addToPage(page, {
+        x: 220,
+        y: 604,
+        backgroundColor: rgb(255, 255, 255),
+        width: 200,
+      });
+
       fields.forEach((field) => {
         const type = field.constructor.name;
         const name = field.getName();
@@ -27,7 +43,18 @@ const FormScreen = ({ navigation }) => {
         No need for second console log as we have not yet written to disk.
         We're shooting ourselves in the foot basically. Ignore that piece of code 
         for now 
+        TODO: Move pdfContent =... logic  to bottom of page assignment after tests
       */
+      //convert to binary data
+      const pdfContent = await pdfDoc.save();
+      //Save to device storage
+      try {
+        await savePDF(pdfContent);
+        setIsLoading(false); //bool config for spinner etc
+      } catch (e) {
+        console.log(`Error saving PDF file to device: `, e.message);
+        setIsLoading(false);
+      }
       return;
       const identityNumber = form.getCheckbox("Identification number");
       console.log("Identifity form result #: \n", identityNumber);
@@ -62,17 +89,6 @@ const FormScreen = ({ navigation }) => {
       // vinNumber.setText("MDHZ0000000000101010101001");
       // makeNumber.setText("DATSUN");
       // odometer.setText("51000");
-
-      //convert to binary data
-      const pdfContent = await pdfDoc.save();
-      //Save to device storage
-      try {
-        await savePDF(pdfContent);
-        setIsLoading(false); //bool config for spinner etc
-      } catch (e) {
-        console.log(`Error saving PDF file to device: `, e.message);
-        setIsLoading(false);
-      }
     };
 
     // pass args{} from summary screen here

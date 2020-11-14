@@ -7,27 +7,21 @@ import { Alert } from "react-native";
 
 const DEFAULT_PDF_PATH =
   "https://scriptwhizimages.s3.amazonaws.com/LicenceDiskForm.pdf";
+const fileOptions = {
+  base64: { encoding: FileSystem.EncodingType.Base64 },
+  utf8: { encoding: FileSystem.EncodingType.Base64 },
+};
 
-export const savePDF = async (pdfBytes, chunkSize = 100000) =>
-  console.log("Need to be implemented");
-/* TODO: Figure out issue with error
-    null is not an object(evaluating 'RNFetchBlobDocumentDir')
-  
-    new Promise((resolve) => {
-    const writes = [];
-    RNFetchBlob.fs.writeStream(PDF_PATH, "base64").then((stream) => {
-      // Iterate through pdfBytes encoding chunks into base64 and writing them out
-      for (let i = 0; i < pdfBytes.length; i += chunkSize) {
-        const chunk = pdfBytes.subarray(i, i + chunkSize);
-        writes.push(stream.write(encodeToBase64(chunk)));
-      }
-      stream.close();
-      Promise.all(writes).then(() => resolve(PDF_PATH));
-    });
-  }); */
+export const savePDF = async (pdfBytes, path, chunkSize = 100000) => {
+  try {
+    await FileSystem.writeAsStringAsync(path, pdfBytes, fileOptions.base64);
+  } catch (e) {
+    Alert.alert("There was a problem saving your pdf. Please try again later");
+  }
+};
+
 const readFile = async (path) => {
-  const options = { encoding: FileSystem.EncodingType.Base64 };
-  const content = await FileSystem.readAsStringAsync(path, options);
+  const content = await FileSystem.readAsStringAsync(path, fileOptions.base64);
   console.log("PDF Content : \n", JSON.stringify(content));
   return content;
 };
@@ -53,6 +47,6 @@ export const downloadPDF = async () => {
 
     //read the file
     const pdfContent = readFile(file.uri);
-    return pdfContent;
+    return { filePath: file.uri, content: pdfContent };
   }
 };
