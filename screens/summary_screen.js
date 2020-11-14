@@ -15,7 +15,7 @@ const SummaryScreen = ({ navigation, route }) => {
   };
 
   const handlePdfGeneration = () => {
-    navigation.navigate("form", vehicleInfo);
+    alert(`This feature is under development`);
   };
 
   return (
@@ -104,7 +104,7 @@ const SummaryScreen = ({ navigation, route }) => {
         <View
           style={{
             height: 200,
-            backgroundColor: "#e5e4e2",
+            backgroundColor: "#f5f5f5",
           }}
         >
           <TouchableOpacity

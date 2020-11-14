@@ -69,9 +69,6 @@ const ScannerScreen = ({ navigation }) => {
           EngineNumber: processedData[13],
           ExpiryDate: processedData[14],
         };
-        alert(
-          `Bar code with type ${type} and data ${processedData} has been scanned!`
-        );
 
         let daysToExiryDate = getDaysFromExpiryDate(vehicleInfo.ExpiryDate);
         vehicleInfo = Object.assign(vehicleInfo, {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { View, Text } from "react-native";
-import { globalStyles } from "../styles/globalStyles";
+import { ImageBackground, Text } from "react-native";
+const BackGroundIMG = require("../assets/images/splash_background.jpg");
 
 const SplashScreen = ({ navigation }) => {
   useEffect(() => {
@@ -13,9 +13,15 @@ const SplashScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={globalStyles.container}>
-      <Text>Splash Screen !!!</Text>
-    </View>
+    <ImageBackground
+      source={BackGroundIMG}
+      style={{
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    ></ImageBackground>
   );
 };
 
