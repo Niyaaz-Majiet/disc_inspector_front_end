@@ -47,7 +47,7 @@ export const downloadPDF = async () => {
     await MediaLibrary.createAlbumAsync("Download", asset, false);
 
     //read the file
-    const pdfContent = readFile(file.uri);
+    const pdfContent = await readFile(file.uri);
     return { filePath: file.uri, content: pdfContent };
   }
 };

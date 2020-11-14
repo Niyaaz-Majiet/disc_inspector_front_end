@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
-import { PDFDocument, rgb } from "pdf-lib";
+import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { savePDF, downloadPDF } from "./../logic/util";
 
 const FormScreen = ({ navigation }) => {
@@ -9,28 +9,42 @@ const FormScreen = ({ navigation }) => {
 
   useEffect(() => {
     const populatePDF = async () => {
-      const { filePath, content } = await downloadPDF();
+      const resp = await downloadPDF();
+      console.log("Content", resp.content);
+      console.log("RESP type", typeof resp);
 
       //TODO: Comment back below code once download is working properly
-      const pdfDoc = await PDFDocument.load(content);
+      const pdfDoc = await PDFDocument.load(resp.content);
       const form = pdfDoc.getForm();
-      const page = pdfDoc.getPage(0);
-      const fields = form.getFields();
-      console.log(" form fields: \n", JSON.stringify(fields));
+      let page = pdfDoc.getPages();
+      page = page[0];
+
+      console.log("Number of pages: \n", pdfDoc.getPageCount());
       /**
        * The PDF from the government does not have any input fields
        * that can be extracted from the pdf.
        * We are going to manually add the input fields based on the
        * x,y coordinates of the form fields and save the document
+       * This component is still under development.
+       * Std libs did not perform as per documented tests & doc spec
+       * on github. Further R&D required. Verbatim examples were followed, but yielded
+       * no pdf writes.
+       * Reading works properly
        */
+
+      const helvetica = pdfDoc.embedFont(StandardFonts.Helvetica);
       const identityNoTextField = form.createTextField("Identity.Number");
       identityNoTextField.setText("8463174489081");
       identityNoTextField.addToPage(page, {
-        x: 220,
+        x: 5,
         y: 604,
-        backgroundColor: rgb(255, 255, 255),
         width: 200,
+        size: 50,
+        textColor: rgb(0.95, 0.1, 0.1),
       });
+
+      const fields = form.getFields();
+      console.log(" form fields: \n", fields);
 
       fields.forEach((field) => {
         const type = field.constructor.name;
@@ -48,10 +62,11 @@ const FormScreen = ({ navigation }) => {
       //convert to binary data
       // pdfDoc.save() returns uint8Arr, however,
       const pdfContent = await pdfDoc.save();
-      const stringContent = new TextDecoder(encoding).decode(pdfContent);
+
+      // const stringContent = new TextDecoder(encoding).decode(pdfContent);
       //Save to device storage
       try {
-        await savePDF(stringContent);
+        await savePDF(pdfContent);
         setIsLoading(false); //bool config for spinner etc
       } catch (e) {
         console.log(`Error saving PDF file to device: `, e.message);
